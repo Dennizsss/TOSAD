@@ -1,31 +1,34 @@
 package Model;
 
+import java.util.ArrayList;
+
 /**
  * Created by Wik on 06/01/2017.
  */
 public class BusinessRule {
-    private int Br_Id;
+    private int Id;
     private String Name;
     private String Description;
     private int Status;
+    private ArrayList<RulePart> ruleParts = new ArrayList<>();
 
 
     public BusinessRule() {
     }
 
-    public BusinessRule(int br_Id, String name, String description, int status) {
-        Br_Id = br_Id;
+    public BusinessRule(int Id, String name, String description, int status) {
+        Id = Id;
         Name = name;
         Description = description;
         Status = status;
     }
 
-    public int getBr_Id() {
-        return Br_Id;
+    public int getId() {
+        return Id;
     }
 
-    public void setBr_Id(int br_Id) {
-        Br_Id = br_Id;
+    public void setId(int id) {
+        Id = id;
     }
 
     public String getName() {
