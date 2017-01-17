@@ -1,9 +1,19 @@
 package RuleType;
 
-public class InterEntityRule implements RuleTypeStrategy {
+/** Puts a restriction on relations from a different entity
+ * Shape:  Entity - Column - Operator - Entity - Column
+ * Example: SalesLine.Price >= Product.MinimumPrice
+ */
+public class InterEntityRule implements RuleType {
+    private String  firstEntity,
+                    secondEntity,
+                    firstColumn,
+                    secondColumn,
+                    operator;
 
-    /** Puts a restriction on relations from a different entity
-     * Shape:
-     * Example:
-     */
+    public Object makeRuleType() {
+        return null;
+    }
+
+
 }
