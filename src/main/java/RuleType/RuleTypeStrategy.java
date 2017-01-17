@@ -2,9 +2,10 @@ package RuleType;
 
 public interface RuleTypeStrategy {
 
-    String leftHandSide = null;
-    String rightHandSide = null;
+    String firstEntity = null;
+    String secondEntity = null;
     String column = null;
     String operator = null;
+    String customValue = null;
 }
 
