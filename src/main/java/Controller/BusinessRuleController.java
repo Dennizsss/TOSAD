@@ -9,7 +9,6 @@ import org.json.simple.parser.JSONParser;
 import java.util.ArrayList;
 
 import static java.lang.Math.toIntExact;
-import static spark.Spark.*;
 
 public class BusinessRuleController {
 
@@ -49,5 +48,32 @@ public class BusinessRuleController {
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
+    }
+
+    public String generateDDL() {
+        String DDL = "ALTER TABLE FILLINTABLETHINGY ADD CONSTRAINT ";
+
+
+        DDL = DDL + this.businessRule.getName() + " CHECK (";
+
+        int i = 1;
+        boolean replace = false;
+
+        for (RulePart rulePart: this.ruleParts) {
+            if (!replace) {
+                DDL = DDL.replaceFirst("FILLINTABLETHINGY", rulePart.getTable());
+                replace = true;
+            }
+
+            if (rulePart.getOrder() == i) {
+                DDL = DDL + rulePart + " ";
+                i++;
+            }
+        }
+
+        DDL = DDL + ")";
+
+        // ALTER TABLE Persons ADD CONSTRAINT chk_Person CHECK (P_Id>0 AND City='Sandnes')
+        return DDL;
     }
 }

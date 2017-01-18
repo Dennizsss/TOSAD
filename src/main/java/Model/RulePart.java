@@ -3,6 +3,7 @@ package Model;
 import RuleType.RuleType;
 
 import java.util.ArrayList;
+import java.util.regex.Pattern;
 
 /**
  * Created by Wik on 08/01/2017.
@@ -64,5 +65,19 @@ public class RulePart {
     }
     public void setCondition(String condition) {
         this.condition = condition;
+    }
+    public String getTable() {
+        return table;
+    }
+    public void setTable(String table) {
+        this.table = table;
+    }
+
+    public String toString() {
+        if (!this.condition.matches("NULL")) {
+            return this.query + " " + this.condition;
+        } else {
+            return this.query;
+        }
     }
 }

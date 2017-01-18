@@ -15,6 +15,7 @@ public class Main {
             String jsonObject = request.body();
             BusinessRuleController controller = new BusinessRuleController();
             controller.parseData(jsonObject);
+            controller.generateDDL();
             return "ok ty";
         });
     }
