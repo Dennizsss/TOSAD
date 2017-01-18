@@ -13,28 +13,39 @@ import static spark.Spark.*;
 
 public class BusinessRuleController {
 
-    private BusinessRule businessRule = new BusinessRule();
+    private BusinessRule businessRule;
     private ArrayList<RulePart> ruleParts = new ArrayList<RulePart>();
 
     public void parseData(String jsonObject) {
         JSONParser parser = new JSONParser();
         try {
-            Object obj = parser.parse(jsonObject);
-            JSONObject object = (JSONObject) obj;
+            JSONObject object = (JSONObject) parser.parse(jsonObject);
+
+            // converting bussinesrule from JSON to java object
+            JSONObject businessRule = (JSONObject) object.get("businessrule");
+            String BRName = (String) businessRule.get("name");
+            String description = (String) businessRule.get("description");
+            int status = toIntExact((Long) businessRule.get("enabled"));
+
+            this.businessRule = new BusinessRule(BRName, description, status);
+
+            // converting ruleparts from JSON to Java objects
             JSONArray rulepartsArr = (JSONArray) object.get("ruleparts");
             for (Object rulepartObject : rulepartsArr) {
                 JSONObject rulepartJSONObject = (JSONObject) rulepartObject;
 
-                String name = (String) rulepartJSONObject.get("name");
+                String RPName = (String) rulepartJSONObject.get("name");
                 String table = (String) rulepartJSONObject.get("table");
                 String query = (String) rulepartJSONObject.get("query");
                 String condition = (String) rulepartJSONObject.get("condition");
                 int order = toIntExact((Long) rulepartJSONObject.get("order"));
 
-                RulePart rulePart = new RulePart(name, table, query, order, condition);
+                RulePart rulePart = new RulePart(RPName, table, query, order, condition);
                 ruleParts.add(rulePart);
-                System.out.println(rulepartObject.toString());
             }
+
+            this.businessRule.setRuleParts(ruleParts);
+            String lol = "test";
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }

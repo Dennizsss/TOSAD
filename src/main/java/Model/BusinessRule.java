@@ -1,5 +1,7 @@
 package Model;
 
+import java.util.ArrayList;
+
 /**
  * Created by Wik on 06/01/2017.
  */
@@ -8,9 +10,16 @@ public class BusinessRule {
     private String Name;
     private String Description;
     private int Status;
+    private ArrayList<RulePart> ruleParts;
 
 
     public BusinessRule() {
+    }
+
+    public BusinessRule(String name, String description, int status) {
+        Name = name;
+        Description = description;
+        Status = status;
     }
 
     public BusinessRule(int br_Id, String name, String description, int status) {
@@ -52,5 +61,11 @@ public class BusinessRule {
         Status = status;
     }
 
+    public ArrayList<RulePart> getRuleParts() {
+        return ruleParts;
+    }
 
+    public void setRuleParts(ArrayList<RulePart> ruleParts) {
+        this.ruleParts = ruleParts;
+    }
 }
