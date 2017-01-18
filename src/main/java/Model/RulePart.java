@@ -1,5 +1,9 @@
 package Model;
 
+import RuleType.RuleType;
+
+import java.util.ArrayList;
+
 /**
  * Created by Wik on 08/01/2017.
  */
@@ -9,6 +13,7 @@ public class RulePart {
     private String Query;
     private int Order;
     private String Condition;
+    private ArrayList<RuleType> types = new ArrayList();
 
     public RulePart() {
     }
@@ -21,38 +26,32 @@ public class RulePart {
         Condition = condition;
     }
 
+    public Object getRuleTypes() {return types;}
+
     public int getId() {
         return Id;
     }
-
     public String getTable() {
         return Table;
     }
-
     public void setTable(String table) {
         Table = table;
     }
-
     public String getQuery() {
         return Query;
     }
-
     public void setQuery(String query) {
         Query = query;
     }
-
     public int getOrder() {
         return Order;
     }
-
     public void setOrder(int order) {
         Order = order;
     }
-
     public String getCondition() {
         return Condition;
     }
-
     public void setCondition(String condition) {
         Condition = condition;
     }
