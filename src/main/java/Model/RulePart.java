@@ -9,21 +9,18 @@ import java.util.ArrayList;
  */
 public class RulePart {
     private int Id;
-    private String Table;
-    private String Query;
-    private int Order;
-    private String Condition;
+    private String name;
+    private String error;
     private ArrayList<RuleType> types = new ArrayList();
 
     public RulePart() {
     }
 
-    public RulePart(int id, String table, String query, int order, String condition) {
+    public RulePart(int id, String name, String error, ArrayList<RuleType> types) {
         Id = id;
-        Table = table;
-        Query = query;
-        Order = order;
-        Condition = condition;
+        this.name = name;
+        this.error = error;
+        this.types = types;
     }
 
     public Object getRuleTypes() {return types;}
@@ -31,28 +28,19 @@ public class RulePart {
     public int getId() {
         return Id;
     }
-    public String getTable() {
-        return Table;
+    public void setId(int id) {
+        Id = id;
     }
-    public void setTable(String table) {
-        Table = table;
+    public String getName() {
+        return name;
     }
-    public String getQuery() {
-        return Query;
+    public void setName(String name) {
+        this.name = name;
     }
-    public void setQuery(String query) {
-        Query = query;
+    public String getError() {
+        return error;
     }
-    public int getOrder() {
-        return Order;
-    }
-    public void setOrder(int order) {
-        Order = order;
-    }
-    public String getCondition() {
-        return Condition;
-    }
-    public void setCondition(String condition) {
-        Condition = condition;
+    public void setError(String error) {
+        this.error = error;
     }
 }
