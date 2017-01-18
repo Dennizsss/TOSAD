@@ -1,5 +1,7 @@
 package Controller;
 
+import DAO.BusinessRuleDAO;
+import DAO.RulePartDAO;
 import Model.RulePart;
 import Model.BusinessRule;
 import org.json.simple.JSONArray;
@@ -14,6 +16,8 @@ public class BusinessRuleController {
 
     private BusinessRule businessRule;
     private ArrayList<RulePart> ruleParts = new ArrayList<RulePart>();
+    private BusinessRuleDAO BRDAO;
+    private RulePartDAO RPDAO;
 
     public void parseData(String jsonObject) {
         JSONParser parser = new JSONParser();
