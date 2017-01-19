@@ -1,9 +1,9 @@
 package DAO;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.ResultSet;
-import java.sql.Statement;
+import Model.BusinessRule;
+
+import java.sql.*;
+import java.util.ArrayList;
 
 
 /**
@@ -11,11 +11,60 @@ import java.sql.Statement;
  */
 public class BusinessRuleDAO {
 
-    private static final String ORACLE_DB_DRIV = "oracle.jdbc.OracleDriver";
-    private static final String ORACLE_DB_CONN = "jdbc:oracle:thin:@ondora02.hu.nl:8521/cursus02.hu.nl";
-    private static final String ORACLE_DB_USER = "tosad_2016_2d_team3";
-    private static final String ORACLE_DB_PASS = "tosad_2016_2d_team3";
-    private static final String ORACLE_DB_NAME = "tosad_2016_2d_team3";
+    private DatabaseConnection db;
+    private Connection con;
 
+    public BusinessRuleDAO() {
+        this.db = new DatabaseConnection();
+        this.con = db.getCon();
+    }
+
+    public void createBusinessRule(BusinessRule businessRule) {
+        PreparedStatement insertBussinessRule = null;
+
+        String insertString = "INSERT INTO \"BusinessRule\" (\"ID\", \"Name\", \"Description\", \"Status\") VALUES (\"BussinessRuleID\".NEXTVAL, ?, ?, ?)";
+        // INSERT INTO "RulePart" ("ID", "TableRP", "QueryRP", "Name") VALUES ("RulePartID".NEXTVAL, 'test', 'test', 'test')
+
+        try {
+            insertBussinessRule = con.prepareStatement(insertString);
+
+            insertBussinessRule.setString(1, businessRule.getName());
+            insertBussinessRule.setString(2, businessRule.getDescription());
+            insertBussinessRule.setInt(3, businessRule.getStatus());
+            insertBussinessRule.executeUpdate();
+
+        } catch (Exception e ) {
+            e.printStackTrace();
+        }
+    }
+
+    public BusinessRule getBusinessRule(int id) {
+        return null;
+    }
+
+    public BusinessRule getBusinessRule(String name) {
+        PreparedStatement selectBR = null;
+        BusinessRule businessRule = null;
+
+        String selectString = "SELECT * FROM \"BusinessRule\" WHERE \"Name\" = ?";
+
+        try {
+            selectBR = con.prepareStatement(selectString);
+
+            selectBR.setString(1, name);
+            ResultSet rs = selectBR.executeQuery();
+
+            rs.next();
+            businessRule = new BusinessRule(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getInt(4));
+            return businessRule;
+        } catch (Exception e ) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public ArrayList<BusinessRule> getBusinessRules() {
+        return null;
+    }
 
 }

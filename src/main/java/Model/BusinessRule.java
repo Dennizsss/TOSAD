@@ -17,16 +17,19 @@ public class BusinessRule {
     }
 
     public BusinessRule(String name, String description, int status) {
-        Name = name;
-        Description = description;
-        Status = status;
+        this(0, name, description, status, null);
     }
 
     public BusinessRule(int br_Id, String name, String description, int status) {
-        Br_Id = br_Id;
-        Name = name;
-        Description = description;
-        Status = status;
+        this(br_Id, name, description, status, null);
+    }
+
+    public BusinessRule(int br_Id, String name, String description, int status, ArrayList<RulePart> ruleParts) {
+        this.Br_Id = br_Id;
+        this.Name = name;
+        this.Description = description;
+        this.Status = status;
+        this.ruleParts = ruleParts;
     }
 
     public int getBr_Id() {

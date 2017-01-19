@@ -1,6 +1,7 @@
 package Controller;
 
 import DAO.BusinessRuleDAO;
+import DAO.BussinessRuleRulePartDAO;
 import DAO.RulePartDAO;
 import Model.RulePart;
 import Model.BusinessRule;
@@ -18,6 +19,38 @@ public class BusinessRuleController {
     private ArrayList<RulePart> ruleParts = new ArrayList<RulePart>();
     private BusinessRuleDAO BRDAO;
     private RulePartDAO RPDAO;
+    private BussinessRuleRulePartDAO BRRPDAO;
+
+    public BusinessRuleController() {
+        BRDAO = new BusinessRuleDAO();
+        RPDAO = new RulePartDAO();
+    }
+
+    public void createDBLink(String BusinessRuleName) {
+        if (BusinessRuleName != null) {
+
+        } else {
+            BusinessRuleName = businessRule.getName();
+
+        }
+    }
+
+    public void createNewBusinessRule() {
+        BusinessRule dbBR = BRDAO.getBusinessRule(businessRule.getName());
+        if (dbBR == null) {
+            BRDAO.createBusinessRule(businessRule);
+        }
+    }
+
+    public void createRuleParts() {
+        for (RulePart rulePart: this.ruleParts) {
+            RulePart dbRP = RPDAO.getRulePart(rulePart.getName(), rulePart.getQuery());
+            if (dbRP == null) {
+                RPDAO.createRulePart(rulePart);
+            }
+        }
+
+    }
 
     public void parseData(String jsonObject) {
         JSONParser parser = new JSONParser();

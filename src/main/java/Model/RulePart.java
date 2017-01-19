@@ -20,17 +20,29 @@ public class RulePart {
     public RulePart() {
     }
 
+    public RulePart(int id, String name, String query, String table) {
+        this(id, name, table, query, 0, null, null);
+    }
+
+    public RulePart(int id, String name, ArrayList<RuleType> types) {
+        this(id, name, null, null, 0, null, types);
+    }
+
+    public RulePart(int id ,String name, String table, String query, int order, String condition) {
+        this(id, name, table, query, order, condition, null);
+    }
+
     public RulePart(String name, String table, String query, int order, String condition) {
+        this(0, name, table, query, order, condition, null);
+    }
+
+    public RulePart(int id ,String name, String table, String query, int order, String condition, ArrayList<RuleType> types) {
+        this.Id = id;
         this.name = name;
         this.query = query;
         this.order = order;
         this.condition = condition;
         this.table = table;
-    }
-
-    public RulePart(int id, String name, ArrayList<RuleType> types) {
-        Id = id;
-        this.name = name;
         this.types = types;
     }
 
