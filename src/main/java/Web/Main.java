@@ -17,7 +17,7 @@ public class Main {
             controller.parseData(jsonObject);
             controller.createNewBusinessRule();
             controller.createRuleParts();
-            //controller.createDBLink(null);
+            controller.createDBLink(null);
             controller.generateDDL();
             return "ok ty";
         });

@@ -20,18 +20,18 @@ public class BusinessRuleDAO {
     }
 
     public void createBusinessRule(BusinessRule businessRule) {
-        PreparedStatement insertBussinessRule = null;
+        PreparedStatement insertBusinessRule = null;
 
         String insertString = "INSERT INTO \"BusinessRule\" (\"ID\", \"Name\", \"Description\", \"Status\") VALUES (\"BussinessRuleID\".NEXTVAL, ?, ?, ?)";
         // INSERT INTO "RulePart" ("ID", "TableRP", "QueryRP", "Name") VALUES ("RulePartID".NEXTVAL, 'test', 'test', 'test')
 
         try {
-            insertBussinessRule = con.prepareStatement(insertString);
+            insertBusinessRule = con.prepareStatement(insertString);
 
-            insertBussinessRule.setString(1, businessRule.getName());
-            insertBussinessRule.setString(2, businessRule.getDescription());
-            insertBussinessRule.setInt(3, businessRule.getStatus());
-            insertBussinessRule.executeUpdate();
+            insertBusinessRule.setString(1, businessRule.getName());
+            insertBusinessRule.setString(2, businessRule.getDescription());
+            insertBusinessRule.setInt(3, businessRule.getStatus());
+            insertBusinessRule.executeUpdate();
 
         } catch (Exception e ) {
             e.printStackTrace();
@@ -54,8 +54,10 @@ public class BusinessRuleDAO {
             selectBR.setString(1, name);
             ResultSet rs = selectBR.executeQuery();
 
-            rs.next();
-            businessRule = new BusinessRule(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getInt(4));
+            if (rs.next()) {
+                businessRule = new BusinessRule(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getInt(4));
+            }
+
             return businessRule;
         } catch (Exception e ) {
             e.printStackTrace();

@@ -24,6 +24,7 @@ public class BusinessRuleController {
     public BusinessRuleController() {
         BRDAO = new BusinessRuleDAO();
         RPDAO = new RulePartDAO();
+        BRRPDAO = new BussinessRuleRulePartDAO();
     }
 
     public void createDBLink(String BusinessRuleName) {
@@ -31,7 +32,7 @@ public class BusinessRuleController {
 
         } else {
             BusinessRuleName = businessRule.getName();
-
+            BRRPDAO.createLink(BusinessRuleName, ruleParts);
         }
     }
 
@@ -109,7 +110,7 @@ public class BusinessRuleController {
         }
 
         DDL = DDL + ")";
-
+        System.out.println(DDL);
         // ALTER TABLE Persons ADD CONSTRAINT chk_Person CHECK (P_Id>0 AND City='Sandnes')
         return DDL;
     }

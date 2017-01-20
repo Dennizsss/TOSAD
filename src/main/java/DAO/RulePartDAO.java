@@ -64,6 +64,23 @@ public class RulePartDAO {
     }
 
     public RulePart getRulePart(String name) {
+        PreparedStatement selectRP = null;
+        RulePart rulePart = null;
+
+        String selectString = "SELECT * FROM \"RulePart\" WHERE \"Name\" = ?";
+
+        try {
+            selectRP = con.prepareStatement(selectString);
+
+            selectRP.setString(1, name);
+            ResultSet rs = selectRP.executeQuery();
+
+            rs.next();
+            rulePart = new RulePart(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4));
+            return rulePart;
+        } catch (Exception e ) {
+            e.printStackTrace();
+        }
         return null;
     }
 
@@ -84,8 +101,9 @@ public class RulePartDAO {
             selectRP.setString(2, query);
             ResultSet rs = selectRP.executeQuery();
 
-            rs.next();
-            rulePart = new RulePart(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4));
+            if (rs.next()) {
+                rulePart = new RulePart(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4));
+            }
             return rulePart;
         } catch (Exception e ) {
             e.printStackTrace();
