@@ -2,12 +2,16 @@ package Model;
 
 import RuleType.RuleType;
 
+import javax.persistence.Entity;
+import javax.persistence.Table;
 import java.util.ArrayList;
 import java.util.regex.Pattern;
 
 /**
  * Created by Wik on 08/01/2017.
  */
+@Entity
+@Table(name = "RulePart")
 public class RulePart {
     private int Id;
     private String name;
