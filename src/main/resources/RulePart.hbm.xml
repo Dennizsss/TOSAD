@@ -14,5 +14,16 @@
         <property name="name" column="NAME" type="string"/>
         <property name="table" column="TABLERP" type="string"/>
         <property name="query" column="QUERYRP" type="string"/>
+
+        <!--<property name="tableName" column="TABLENAME" type="string"/>-->
+        <!--<property name="columnName" column="COLUMNNAME" type="string"/>-->
+        <!--<property name="not" column="NOTTAG" type="number"/>-->
+        <!--<property name="operator" column="OPERATE" type="string"/>-->
+        <!--<property name="valueType" column="VALUETYPE" type="string"/>-->
+        <!--<property name="min" column="MINI" type="number"/>-->
+        <!--<property name="max" column="MAXI" type="number"/>-->
+        <!--<property name="otherColumn" column="OTHERCOLUMN" type="string"/>-->
+        <!--<property name="otherTable" column="OTHERTABLE" type="string"/>-->
+        <!--<property name="ruleType" column="RULETYPE" type="string"/>-->
     </class>
 </hibernate-mapping>
