@@ -5,13 +5,11 @@ package RuleType;
  * Example: Employee where EmployeeName = "Sales" must have commision
  */
 public class TupleRule implements RuleType {
-    private String  firstEntity,
-                    secondEntity,
-                    firstColumn,
-                    secondColumn,
-                    firstOperator,
-                    secondOperator,
-                    expression;
+    private String  entity,
+                    column,
+                    otherColumn,
+                    operator;
+    private boolean not;
 
     public Object makeRuleType(){
         return this;

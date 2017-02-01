@@ -4,10 +4,13 @@ package RuleType;
  * Shape: Entity - Operator - customValue
  * Example: Salary > 50.000
  */
-public class AttributeRule implements RuleType {
+public class AttributeRangeRule implements RuleType {
     private String  entity,
-                    operator,
-                    value;
+            column,
+            operator,
+            valuetype,
+            value;
+    private boolean not;
 
     public Object makeRuleType() {
         return this;

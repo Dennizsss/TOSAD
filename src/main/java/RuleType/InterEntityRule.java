@@ -10,6 +10,7 @@ public class InterEntityRule implements RuleType {
                     firstColumn,
                     secondColumn,
                     operator;
+    private boolean not;
 
     public Object makeRuleType() {
         return null;
