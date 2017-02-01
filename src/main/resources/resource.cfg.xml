@@ -24,6 +24,7 @@
         <property name="hibernate.connection.defaultNChar">true</property>
 
         <!-- List of XML mapping files -->
+
         <mapping resource="RulePart.hbm.xml"/>
 
     </session-factory>

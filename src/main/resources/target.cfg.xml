@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE hibernate-configuration SYSTEM
+        "http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd">
+
+<hibernate-configuration>
+    <session-factory>
+        <property name="hibernate.dialect">
+            org.hibernate.dialect.Oracle12cDialect
+        </property>
+        <property name="hibernate.connection.driver_class">
+            oracle.jdbc.driver.OracleDriver
+        </property>
+        <property name="hibernate.connection.url">
+            jdbc:oracle:thin:@ondora02.hu.nl:8521/cursus02.hu.nl
+        </property>
+        <property name="hibernate.connection.username">
+            tosad_2016_2d_team3
+        </property>
+        <property name="hibernate.connection.password">
+            tosad_2016_2d_team3
+        </property>
+        <property name="hibernate.connection.autocommit">true</property>
+        <property name="hibernate.default_schema">TOSAD_2016_2D_TEAM3_TARGET</property>
+        <property name="show_sql">true</property>
+        <property name="hibernate.connection.defaultNChar">true</property>
+
+        <!-- List of XML mapping files -->
+
+        <mapping resource="RulePart.hbm.xml"/>
+
+    </session-factory>
+</hibernate-configuration>

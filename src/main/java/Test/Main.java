@@ -1,13 +1,15 @@
 package Test;
 
+import DAO.ResourceDatabaseConnection;
+import DAO.TargetDatabaseConnection;
 import Model.RulePart;
-import org.hibernate.HibernateException;
-import org.hibernate.Session;
-import org.hibernate.Transaction;
-import org.hibernate.SessionFactory;
+import org.hibernate.*;
 import org.hibernate.cfg.Configuration;
+import org.hibernate.engine.spi.SessionFactoryImplementor;
 import org.hibernate.query.Query;
+import org.hibernate.sql.ordering.antlr.Factory;
 
+import java.io.Console;
 import java.util.Iterator;
 import java.util.List;
 
@@ -16,30 +18,38 @@ import java.util.List;
  */
 public class Main {
 	private static SessionFactory factory;
+	private static SessionFactory factory2;
 
 	public static void main(String[] args) {
-		try{
-			factory = new Configuration().configure("hibernate.cfg.xml").buildSessionFactory();
-		} catch (Throwable ex) {
-			System.err.println("Failed to create sessionFactory object." + ex);
-			throw new ExceptionInInitializerError(ex);
-		}
+		TargetDatabaseConnection tdc = new TargetDatabaseConnection();
+		factory = tdc.getFactory();
+
+		//ResourceDatabaseConnection rdc = new ResourceDatabaseConnection();
+		//factory2 = rdc.getFactory();
 
 
 		Session session = factory.openSession();
-		Transaction tx = null;
+
+		Transaction tx = session.beginTransaction();
+
 		try {
-			tx = session.beginTransaction();
-			Query query = session.createQuery("FROM RulePart");
-			List ruleParts = query.list();
-			for (Iterator iterator =
-				 ruleParts.iterator(); iterator.hasNext(); ) {
-				RulePart rulePart = (RulePart) iterator.next();
-				System.out.print(" Name: " + rulePart.getName());
-				System.out.print("  Query: " + rulePart.getQuery());
-				System.out.println("  Table: " + rulePart.getTable());
+			SessionFactoryImplementor sfi = (SessionFactoryImplementor)factory;
+			String name = sfi.getSettings().getDefaultSchemaName();
+
+			System.out.println(name);
+
+			//SQLQuery queryg = session.createSQLQuery("ALTER SESSION SET CURRENT_SCHEMA=TOSAD_2016_2D_TEAM3_TARGET");
+			//queryg.executeUpdate();
+
+			//SQLQuery query = session.createSQLQuery("select ID from VBMG_KLANTEN");
+			SQLQuery query = session.createSQLQuery("select ID, NAME from BUSINESSRULE");
+			List<Object[]> rows = query.list();
+			for(Object[] row : rows){
+				System.out.println(row[0].toString());
+				System.out.println(row[1].toString());
+				System.out.println(row[2].toString());
 			}
-			tx.commit();
+			tx = null;
 		} catch (HibernateException e) {
 			if (tx != null) tx.rollback();
 			e.printStackTrace();

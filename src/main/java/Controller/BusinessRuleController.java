@@ -1,8 +1,6 @@
 package Controller;
 
-import DAO.BusinessRuleDAO;
-import DAO.BussinessRuleRulePartDAO;
-import DAO.RulePartDAO;
+
 import Model.RulePart;
 import Model.BusinessRule;
 import org.json.simple.JSONArray;
@@ -15,7 +13,7 @@ import static java.lang.Math.toIntExact;
 
 public class BusinessRuleController {
 
-    private BusinessRule businessRule;
+    /*private BusinessRule businessRule;
     private ArrayList<RulePart> ruleParts = new ArrayList<RulePart>();
     private BusinessRuleDAO BRDAO;
     private RulePartDAO RPDAO;
@@ -113,5 +111,5 @@ public class BusinessRuleController {
         System.out.println(DDL);
         // ALTER TABLE Persons ADD CONSTRAINT chk_Person CHECK (P_Id>0 AND City='Sandnes')
         return DDL;
-    }
+    }*/
 }
