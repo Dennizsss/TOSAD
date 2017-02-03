@@ -93,7 +93,7 @@ public class BusinessRuleController {
             if (message.matches("ok")) {
                 BRDAO.setBusinessRuleApplied(businessRule.getId(), 0);
             } else {
-                BRDAO.setBusinessRuleApplied(businessRule.getId(), 3);
+                //BRDAO.setBusinessRuleApplied(businessRule.getId(), 3);
             }
         } else {
             System.out.println("No ruleparts, this means it is not a full businessrule");
