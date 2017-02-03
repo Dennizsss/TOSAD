@@ -1,5 +1,7 @@
 package RuleType;
 
+import Model.RulePart;
+
 import java.util.List;
 
 /**Restriction on a attribute inside object / entity
@@ -15,6 +17,10 @@ public class AttributeListRule implements RuleType {
 
     public Object makeRuleType() {
         return this;
+    }
+
+    public String generateStatement(RulePart rulePart) {
+        return "";
     }
 }
 

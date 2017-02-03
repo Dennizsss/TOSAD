@@ -1,7 +1,11 @@
 package Test;
 
+import Controller.BusinessRuleController;
+import DAO.BusinessRuleDAO;
 import DAO.ResourceDatabaseConnection;
+import DAO.RulePartDAO;
 import DAO.TargetDatabaseConnection;
+import Model.BusinessRule;
 import Model.RulePart;
 import org.hibernate.*;
 import org.hibernate.cfg.Configuration;
@@ -10,6 +14,11 @@ import org.hibernate.query.Query;
 import org.hibernate.sql.ordering.antlr.Factory;
 
 import java.io.Console;
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
@@ -17,44 +26,75 @@ import java.util.List;
  * Created by arthur on 26-1-2017.
  */
 public class Main {
-	private static SessionFactory factory;
-	private static SessionFactory factory2;
-
 	public static void main(String[] args) {
-		TargetDatabaseConnection tdc = new TargetDatabaseConnection();
-		factory = tdc.getFactory();
+		RulePartDAO rpDAO = new RulePartDAO();
+        BusinessRuleDAO brDAO = new BusinessRuleDAO();
+        TargetDatabaseConnection targetDatabaseConnection = new TargetDatabaseConnection();
 
-		//ResourceDatabaseConnection rdc = new ResourceDatabaseConnection();
-		//factory2 = rdc.getFactory();
+//        ArrayList<RulePart> ruleParts = rpDAO.getRuleParts();
+//
+//        for (RulePart rulePart: ruleParts) {
+//            System.out.print("Id " + rulePart.getId() + " + ");
+//            System.out.print("Name " + rulePart.getName() + " + ");
+//            System.out.println("Tablename " + rulePart.getTableName() + " + ");
+//        }
 
+//        RulePart rp = rpDAO.getRulePart(4);
+//        System.out.print("Id " + rp.getId() + " + ");
+//        System.out.print("Name " + rp.getName() + " + ");
+//        System.out.println("Tablename " + rp.getTableName() + " + ");
 
-		Session session = factory.openSession();
+//        ArrayList<BusinessRule> businessRules = brDAO.getBusinessRules();
+//
+//        for (BusinessRule businessRule: businessRules) {
+//            System.out.print("Id " + businessRule.getId() + " + ");
+//            System.out.print("Name " + businessRule.getName() + " + ");
+//            System.out.println("Desc " + businessRule.getDescription() + " + ");
+//        }
+//
+//        BusinessRule businessRule = brDAO.getBusinessRule(666);
+//        System.out.print("Id " + businessRule.getId() + " + ");
+//        System.out.print("Name " + businessRule.getName() + " + ");
+//        System.out.println("Desc " + businessRule.getDescription() + " + ");
+//
+//        for (RulePart rulePart: businessRule.getRuleParts()) {
+//            System.out.print("Id " + rulePart.getId() + " + ");
+//            System.out.print("Name " + rulePart.getName() + " + ");
+//            System.out.println("Tablename " + rulePart.getRuleType() + " + ");
+//        }
 
-		Transaction tx = session.beginTransaction();
+//        BusinessRuleController businessRuleController = new BusinessRuleController();
+//
+//        int businessRuleId = 666;
+//        BusinessRule businessRule = brDAO.getBusinessRule(businessRuleId);
+//
+//        ArrayList<BusinessRule> businessRules = brDAO.getBusinessRules();
 
-		try {
-			SessionFactoryImplementor sfi = (SessionFactoryImplementor)factory;
-			String name = sfi.getSettings().getDefaultSchemaName();
+//        for (BusinessRule businessRule : businessRules) {
+//            if (businessRule.getStatus() == 0 && businessRule.getId() == 666) {
+//                if (businessRule.getRuleParts().size() > 0) {
+//                    String tableName = businessRule.getRuleParts().get(0).getTableName();
+//                    String DDL = businessRuleController.generateDDL(businessRule);
+//                    System.out.println(DDL);
+//
+//                    targetDatabaseConnection.dropBusinessRule(businessRule.getName(), tableName);
+//
+//                    String message = targetDatabaseConnection.applyBusinessRule(DDL);
+//                    if (message.matches("ok")) {
+//                        brDAO.setBusinessRuleApplied(businessRule.getId(), 1);
+//                    } else {
+//                        brDAO.setBusinessRuleApplied(businessRule.getId(), 3);
+//                    }
+//                } else {
+//                    System.out.println("No ruleparts, this means it is not a full businessrule");
+//                    brDAO.setBusinessRuleApplied(businessRule.getId(), 3);
+//                }
+//            }
+//        }
 
-			System.out.println(name);
+//        BusinessRuleController businessRuleController = new BusinessRuleController();
+//        businessRuleController.disableBusinessRule(666);
+//        businessRuleController.enableBusinessRule(666);
 
-			//SQLQuery queryg = session.createSQLQuery("ALTER SESSION SET CURRENT_SCHEMA=TOSAD_2016_2D_TEAM3_TARGET");
-			//queryg.executeUpdate();
-
-			//SQLQuery query = session.createSQLQuery("select ID from VBMG_KLANTEN");
-			SQLQuery query = session.createSQLQuery("select ID, NAME from BUSINESSRULE");
-			List<Object[]> rows = query.list();
-			for(Object[] row : rows){
-				System.out.println(row[0].toString());
-				System.out.println(row[1].toString());
-				System.out.println(row[2].toString());
-			}
-			tx = null;
-		} catch (HibernateException e) {
-			if (tx != null) tx.rollback();
-			e.printStackTrace();
-		} finally {
-			session.close();
-		}
 	}
 }

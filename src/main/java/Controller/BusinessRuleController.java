@@ -1,115 +1,150 @@
 package Controller;
 
 
+import DAO.BusinessRuleDAO;
+import DAO.RulePartDAO;
+import DAO.TargetDatabaseConnection;
 import Model.RulePart;
 import Model.BusinessRule;
+import RuleType.*;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 
 import java.util.ArrayList;
+import java.util.Dictionary;
+import java.util.HashMap;
+import java.util.Map;
 
 import static java.lang.Math.toIntExact;
 
 public class BusinessRuleController {
 
-    /*private BusinessRule businessRule;
-    private ArrayList<RulePart> ruleParts = new ArrayList<RulePart>();
     private BusinessRuleDAO BRDAO;
     private RulePartDAO RPDAO;
-    private BussinessRuleRulePartDAO BRRPDAO;
+    private TargetDatabaseConnection TDCON;
 
     public BusinessRuleController() {
         BRDAO = new BusinessRuleDAO();
         RPDAO = new RulePartDAO();
-        BRRPDAO = new BussinessRuleRulePartDAO();
+        TDCON = new TargetDatabaseConnection();
     }
 
-    public void createDBLink(String BusinessRuleName) {
-        if (BusinessRuleName != null) {
+    public void applyBusinessRule(int businessRuleId) {
+        BusinessRule businessRule = BRDAO.getBusinessRule(businessRuleId);
+        if (businessRule.getStatus() == 0 && businessRule.getRuleParts().size() > 0) {
+            String tableName = businessRule.getRuleParts().get(0).getTableName();
+            String DDL = generateDDL(businessRule);
+            System.out.println(DDL);
 
+            TDCON.dropBusinessRule(businessRule.getName(), tableName);
+
+            String message = TDCON.applyBusinessRule(DDL);
+            if (message.matches("ok")) {
+                BRDAO.setBusinessRuleApplied(businessRule.getId(), 1);
+            } else {
+                BRDAO.setBusinessRuleApplied(businessRule.getId(), 3);
+            }
         } else {
-            BusinessRuleName = businessRule.getName();
-            BRRPDAO.createLink(BusinessRuleName, ruleParts);
+            System.out.println("No ruleparts, this means it is not a full businessrule");
+            BRDAO.setBusinessRuleApplied(businessRule.getId(), 3);
         }
     }
 
-    public void createNewBusinessRule() {
-        BusinessRule dbBR = BRDAO.getBusinessRule(businessRule.getName());
-        if (dbBR == null) {
-            BRDAO.createBusinessRule(businessRule);
-        }
-    }
-
-    public void createRuleParts() {
-        for (RulePart rulePart: this.ruleParts) {
-            RulePart dbRP = RPDAO.getRulePart(rulePart.getName(), rulePart.getQuery());
-            if (dbRP == null) {
-                RPDAO.createRulePart(rulePart);
+    public void enableBusinessRule(int businessRuleId) {
+        BusinessRule businessRule = BRDAO.getBusinessRule(businessRuleId);
+        if (businessRule.getRuleParts().size() > 0) {
+            String tableName = businessRule.getRuleParts().get(0).getTableName();
+            String message = TDCON.enableBusinessRule(businessRule.getName(), tableName);
+            if (message.matches("ok")) {
+                BRDAO.setBusinessRuleApplied(businessRule.getId(), 1);
+            } else {
+                BRDAO.setBusinessRuleApplied(businessRule.getId(), 3);
             }
+        } else {
+            System.out.println("No ruleparts, this means it is not a full businessrule");
+            BRDAO.setBusinessRuleApplied(businessRule.getId(), 3);
         }
-
     }
 
-    public void parseData(String jsonObject) {
-        JSONParser parser = new JSONParser();
-        try {
-            JSONObject object = (JSONObject) parser.parse(jsonObject);
-
-            // converting bussinesrule from JSON to java object
-            JSONObject businessRule = (JSONObject) object.get("businessrule");
-            String BRName = (String) businessRule.get("name");
-            String description = (String) businessRule.get("description");
-            int status = toIntExact((Long) businessRule.get("enabled"));
-
-            this.businessRule = new BusinessRule(BRName, description, status);
-
-            // converting ruleparts from JSON to Java objects
-            JSONArray rulepartsArr = (JSONArray) object.get("ruleparts");
-            for (Object rulepartObject : rulepartsArr) {
-                JSONObject rulepartJSONObject = (JSONObject) rulepartObject;
-
-                String RPName = (String) rulepartJSONObject.get("name");
-                String table = (String) rulepartJSONObject.get("table");
-                String query = (String) rulepartJSONObject.get("query");
-                String condition = (String) rulepartJSONObject.get("condition");
-                int order = toIntExact((Long) rulepartJSONObject.get("order"));
-
-                RulePart rulePart = new RulePart(RPName, table, query, order, condition);
-                ruleParts.add(rulePart);
+    public void disableBusinessRule(int businessRuleId) {
+        BusinessRule businessRule = BRDAO.getBusinessRule(businessRuleId);
+        if (businessRule.getRuleParts().size() > 0) {
+            String tableName = businessRule.getRuleParts().get(0).getTableName();
+            String message = TDCON.disableBusinessRule(businessRule.getName(), tableName);
+            if (message.matches("ok")) {
+                BRDAO.setBusinessRuleApplied(businessRule.getId(), 2);
+            } else {
+                BRDAO.setBusinessRuleApplied(businessRule.getId(), 3);
             }
-
-            this.businessRule.setRuleParts(ruleParts);
-            String lol = "test";
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
+        } else {
+            System.out.println("No ruleparts, this means it is not a full businessrule");
+            BRDAO.setBusinessRuleApplied(businessRule.getId(), 3);
         }
     }
 
-    public String generateDDL() {
-        String DDL = "ALTER TABLE FILLINTABLETHINGY ADD CONSTRAINT ";
+    public void dropBusinessRule(int businessRuleId) {
+        BusinessRule businessRule = BRDAO.getBusinessRule(businessRuleId);
+        if (businessRule.getRuleParts().size() > 0) {
+            String tableName = businessRule.getRuleParts().get(0).getTableName();
+            String message = TDCON.dropBusinessRule(businessRule.getName(), tableName);
+            if (message.matches("ok")) {
+                BRDAO.setBusinessRuleApplied(businessRule.getId(), 0);
+            } else {
+                BRDAO.setBusinessRuleApplied(businessRule.getId(), 3);
+            }
+        } else {
+            System.out.println("No ruleparts, this means it is not a full businessrule");
+            BRDAO.setBusinessRuleApplied(businessRule.getId(), 3);
+        }
+    }
+
+    public String generateDDL(BusinessRule businessRule) {
+        String DDL = "ALTER TABLE FILLINTABLETHINGY ADD CONSTRAINT " + businessRule.getName() + "_CHK CHECK (";
 
 
-        DDL = DDL + this.businessRule.getName() + " CHECK (";
+        ArrayList<RulePart> ruleParts = businessRule.getRuleParts();
 
         int i = 1;
         boolean replace = false;
+        Map<Integer, String> parts = new HashMap<>();
 
-        for (RulePart rulePart: this.ruleParts) {
+        for (RulePart rulePart : ruleParts) {
             if (!replace) {
-                DDL = DDL.replaceFirst("FILLINTABLETHINGY", rulePart.getTable());
+                DDL = DDL.replaceFirst("FILLINTABLETHINGY", rulePart.getTableName());
                 replace = true;
             }
 
-            if (rulePart.getOrder() == i) {
-                DDL = DDL + rulePart + " ";
-                i++;
+            RuleType ruleType = null;
+
+            if (rulePart.getRuleType().matches("Attribute Compare Rule")) {
+                ruleType = new AttributeCompareRule();
+            } else if (rulePart.getRuleType().matches("Attribute Range Rule")) {
+                ruleType = new AttributeRangeRule();
+            } else if (rulePart.getRuleType().matches("Attribute List Rule")) {
+                ruleType = new AttributeListRule();
+            } else if (rulePart.getRuleType().matches("Tuple Compare Rule")) {
+                ruleType = new TupleRule();
+            } else if (rulePart.getRuleType().matches("Inter-Entity Compare Rule")) {
+                ruleType = new InterEntityRule();
             }
+
+            parts.put(rulePart.getSequence(), ruleType.generateStatement(rulePart));
+
+            i++;
+        }
+
+        for (int count = 1; count < i; count++) {
+            DDL = DDL + " " + parts.get(count - 1);
         }
 
         DDL = DDL + ")";
-        System.out.println(DDL);
-        // ALTER TABLE Persons ADD CONSTRAINT chk_Person CHECK (P_Id>0 AND City='Sandnes')
+
+        //System.out.println(DDL);
         return DDL;
-    }*/
+    }
+
+    public String generateDDL2(BusinessRule businessRule) {
+        return "";
+    }
 }

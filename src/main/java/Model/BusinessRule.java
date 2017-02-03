@@ -1,67 +1,76 @@
 package Model;
 
+import javax.persistence.*;
 import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * Created by Wik on 06/01/2017.
  */
 public class BusinessRule {
-    private int Br_Id;
-    private String Name;
-    private String Description;
-    private int Status;
-    private ArrayList<RulePart> ruleParts;
-
+    private Integer Id;
+    private String name;
+    private String description;
+    private Integer status;
+    private String database;
+    private ArrayList<RulePart> ruleParts = new ArrayList<RulePart>();
 
     public BusinessRule() {
+
     }
 
-    public BusinessRule(String name, String description, int status) {
-        this(0, name, description, status, null);
+    public BusinessRule(Integer Id, String name, String description, Integer status, String database) {
+        this(Id, name, description, status, database, null);
     }
 
-    public BusinessRule(int br_Id, String name, String description, int status) {
-        this(br_Id, name, description, status, null);
-    }
-
-    public BusinessRule(int br_Id, String name, String description, int status, ArrayList<RulePart> ruleParts) {
-        this.Br_Id = br_Id;
-        this.Name = name;
-        this.Description = description;
-        this.Status = status;
+    public BusinessRule(Integer Id, String name, String description, Integer status, String database, ArrayList<RulePart> ruleParts) {
+        this.Id = Id;
+        this.name = name;
+        this.description = description;
+        this.status = status;
+        this.database = database;
         this.ruleParts = ruleParts;
     }
 
-    public int getBr_Id() {
-        return Br_Id;
+    public Integer getId() {
+        return Id;
     }
 
-    public void setBr_Id(int br_Id) {
-        Br_Id = br_Id;
+    public void setId(Integer id) {
+        Id = id;
     }
 
     public String getName() {
-        return Name;
+        return name;
     }
 
     public void setName(String name) {
-        Name = name;
+        this.name = name;
     }
 
     public String getDescription() {
-        return Description;
+        return description;
     }
 
     public void setDescription(String description) {
-        Description = description;
+        this.description = description;
     }
 
-    public int getStatus() {
-        return Status;
+    public Integer getStatus() {
+        return status;
     }
 
-    public void setStatus(int status) {
-        Status = status;
+    public void setStatus(Integer status) {
+        this.status = status;
+    }
+
+    public String getDatabase() {
+        return database;
+    }
+
+    public void setDatabase(String database) {
+        this.database = database;
     }
 
     public ArrayList<RulePart> getRuleParts() {

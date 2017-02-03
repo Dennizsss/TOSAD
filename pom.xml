@@ -62,6 +62,11 @@
             <version>2.2.4</version>
         </dependency>
         <dependency>
+            <groupId>org.hibernate</groupId>
+            <artifactId>hibernate-entitymanager</artifactId>
+            <version>3.3.2.GA</version>
+        </dependency>
+        <dependency>
             <groupId>org.oracle</groupId>
             <artifactId>jdbc</artifactId>
             <version>12.1.0.1</version>

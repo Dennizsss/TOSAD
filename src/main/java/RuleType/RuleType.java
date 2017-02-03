@@ -1,6 +1,9 @@
 package RuleType;
 
+import Model.RulePart;
+
 public interface RuleType {
-    Object makeRuleType();
+    public Object makeRuleType();
+    public String generateStatement(RulePart rulePart);
 }
 
