@@ -3,6 +3,7 @@ package RuleType;
 import Model.RulePart;
 
 import javax.persistence.Convert;
+import java.util.ArrayList;
 
 /**Restriction on a attribute inside object / entity
  * Shape: Entity - Operator - customValue
@@ -46,6 +47,10 @@ public class AttributeCompareRule implements RuleType {
         statement = statement + ") " + condition;
 
         return statement;
+    }
+
+    public ArrayList<String> generateTrigger(RulePart rulePart) {
+        return new ArrayList<>();
     }
 }
 

@@ -1,9 +1,6 @@
 package DAO;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.ResultSet;
-import java.sql.Statement;
+import java.sql.*;
 
 /**
  * Created by Arthur on 19-1-2017.
@@ -23,6 +20,19 @@ public class ResourceDatabaseConnection {
     }
 
     public Connection getCon() {
+        try {
+            int tries = 0;
+            while (con.isClosed()) {
+                if (tries == 10) break;
+                this.openConnection();
+                System.out.println("Reconnecting to database");
+            }
+            tries++;
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
         return con;
     }
 

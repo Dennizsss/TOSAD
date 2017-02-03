@@ -32,18 +32,20 @@ public class BusinessRuleController {
 
     public void applyBusinessRule(int businessRuleId) {
         BusinessRule businessRule = BRDAO.getBusinessRule(businessRuleId);
-        if (businessRule.getStatus() == 0 && businessRule.getRuleParts().size() > 0) {
-            String tableName = businessRule.getRuleParts().get(0).getTableName();
-            String DDL = generateDDL(businessRule);
-            System.out.println(DDL);
+        if (businessRule.getRuleParts().size() > 0) {
+            if (businessRule.getStatus() == 0) {
+                String tableName = businessRule.getRuleParts().get(0).getTableName();
+                String DDL = generateDDL(businessRule);
+                System.out.println(DDL);
 
-            TDCON.dropBusinessRule(businessRule.getName(), tableName);
+                TDCON.dropBusinessRule(businessRule.getName(), tableName);
 
-            String message = TDCON.applyBusinessRule(DDL);
-            if (message.matches("ok")) {
-                BRDAO.setBusinessRuleApplied(businessRule.getId(), 1);
-            } else {
-                BRDAO.setBusinessRuleApplied(businessRule.getId(), 3);
+                String message = TDCON.applyBusinessRule(DDL);
+                if (message.matches("ok")) {
+                    BRDAO.setBusinessRuleApplied(businessRule.getId(), 1);
+                } else {
+                    BRDAO.setBusinessRuleApplied(businessRule.getId(), 3);
+                }
             }
         } else {
             System.out.println("No ruleparts, this means it is not a full businessrule");
@@ -144,7 +146,67 @@ public class BusinessRuleController {
         return DDL;
     }
 
-    public String generateDDL2(BusinessRule businessRule) {
-        return "";
-    }
+//    public String generateDDL2(BusinessRule businessRule) {
+//
+//        String DDL = " Create or replace trigger NIEUWEMOOIENAAM_TRIG " +
+//                " BEFORE insert or update on FILLINTABLETHINGY " +
+//                " for each row " +
+//                " DECLARE " ;
+//
+//
+//        ArrayList<RulePart> ruleParts = businessRule.getRuleParts();
+//
+//        int i = 1;
+//        boolean replace = false;
+//        ArrayList<ArrayList<String>> parts = new ArrayList<>();
+//
+//        for (RulePart rulePart : ruleParts) {
+//            if (!replace) {
+//                String together = rulePart.getOtherColumn() + rulePart.getColumnName();
+//                DDL = DDL.replaceFirst("NIEUWEMOOIENAAM_TRIG", together + "_TRIG");
+//
+//                DDL = DDL.replaceFirst("FILLINTABLETHINGY", rulePart.getTableName());
+//                replace = true;
+//            }
+//
+//            RuleType ruleType = null;
+//
+//            if (rulePart.getRuleType().matches("Attribute Compare Rule")) {
+//                ruleType = new AttributeCompareRule();
+//            } else if (rulePart.getRuleType().matches("Attribute Range Rule")) {
+//                ruleType = new AttributeRangeRule();
+//            } else if (rulePart.getRuleType().matches("Attribute List Rule")) {
+//                ruleType = new AttributeListRule();
+//            } else if (rulePart.getRuleType().matches("Tuple Compare Rule")) {
+//                ruleType = new TupleRule();
+//            } else if (rulePart.getRuleType().matches("Inter-Entity Compare Rule")) {
+//                ruleType = new InterEntityRule();
+//            }
+//
+//            parts.add(ruleType.generateTrigger(rulePart));
+//
+//            //parts.put(rulePart.getSequence(), ruleType.generateTrigger(rulePart));
+//
+//            i++;
+//        }
+//
+//        for (ArrayList<String> part: parts) {
+//            DDL = DDL + " " + part.get(0);
+//        }
+//
+//        DDL = DDL + " BEGIN ";
+//
+//        for (ArrayList<String> part: parts) {
+//            DDL = DDL + " " + part.get(1);
+//        }
+//
+//        for (ArrayList<String> part: parts) {
+//            DDL = DDL + " " + part.get(2);
+//        }
+//
+//        DDL = DDL + " end;";
+//
+//        //System.out.println(DDL);
+//        return DDL;
+//    }
 }

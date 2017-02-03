@@ -92,9 +92,18 @@ public class Main {
 //            }
 //        }
 
-//        BusinessRuleController businessRuleController = new BusinessRuleController();
+        BusinessRuleController businessRuleController = new BusinessRuleController();
+        BusinessRule businessRule = brDAO.getBusinessRule(71);
+        String DDL = businessRuleController.generateDDL(businessRule);
+        System.out.println(DDL);
+
+
+//
+//        String test = businessRuleController.generateDDL2(businessRule);
+//        System.out.println(test);
 //        businessRuleController.disableBusinessRule(666);
 //        businessRuleController.enableBusinessRule(666);
+
 
 	}
 }

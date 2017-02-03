@@ -2,6 +2,8 @@ package RuleType;
 
 import Model.RulePart;
 
+import java.util.ArrayList;
+
 /** Restriction on two or more attributes within a row
  * Shape: Entity - Operator - Column - Expression - Entity - Operator - Column
  * Example: Employee where EmployeeName = "Sales" must have commision
@@ -33,8 +35,11 @@ public class TupleRule implements RuleType {
         if (!rulePart.getCondition().matches("NULL")) condition = rulePart.getCondition();
         else condition = "";
 
-        statement = statement + column + " " + not + " " + operator + " " + otherColumn + ") " + condition;
+        statement = statement +  column + " " + not + " " + operator + " " + otherColumn + ") " + condition;
 
         return statement;
+    }
+    public ArrayList<String> generateTrigger(RulePart rulePart) {
+        return new ArrayList<>();
     }
 }

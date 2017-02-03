@@ -20,6 +20,19 @@ public class TargetDatabaseConnection {
     }
 
     public Connection getCon() {
+        try {
+            int tries = 0;
+            while (con.isClosed()) {
+                if (tries == 10) break;
+                this.openConnection();
+                System.out.println("Reconnecting to database");
+            }
+            tries++;
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
         return con;
     }
 
@@ -69,7 +82,7 @@ public class TargetDatabaseConnection {
             stmt.executeQuery("ALTER TABLE " + tableName + " DROP CONSTRAINT " + businessRuleName + "_CHK");
             return "ok";
         } catch (SQLException e) {
-            e.printStackTrace();
+            //e.printStackTrace();
             return e.getMessage();
         }
     }

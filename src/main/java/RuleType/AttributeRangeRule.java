@@ -2,6 +2,8 @@ package RuleType;
 
 import Model.RulePart;
 
+import java.util.ArrayList;
+
 /**Restriction on a attribute inside object / entity
  * Shape: Entity - Operator - customValue
  * Example: Salary > 50.000
@@ -36,6 +38,10 @@ public class AttributeRangeRule implements RuleType {
         statement = statement + ") " + condition;
 
         return statement;
+    }
+
+    public ArrayList<String> generateTrigger(RulePart rulePart) {
+        return new ArrayList<>();
     }
 }
 
